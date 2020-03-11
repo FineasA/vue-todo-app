@@ -2,6 +2,7 @@
   <div>
     <div class="row justify-content-center">
       <input
+        class="input"
         type="text"
         placeholder="Enter task..."
         v-model="query"
@@ -20,6 +21,9 @@
             v-for="(task, index) in todos"
             :key="index"
             @click="deleteTask(index)"
+            :class="{ active: task.isHovering }"
+            @mouseover="hovering(index)"
+            @mouseleave="notHovering(index)"
           >
             {{ task.todo }}
           </li>
@@ -49,17 +53,30 @@ export default {
     addTask() {
       this.task = {
         isCompleted: false,
-        todo: this.query
+        todo: this.query,
+        isHovering: false
       };
       this.todos.push(this.task);
       this.query = "";
+    },
+    hovering(index) {
+      this.todos[index].isHovering = true;
+    },
+    notHovering(index) {
+      this.todos[index].isHovering = false;
     }
   }
 };
 </script>
 
 <style>
-.list-group-item {
+.list-group-item,
+.btn {
   cursor: pointer;
+  font-family: "Baloo Chettan 2", cursive;
+}
+
+.input {
+  font-family: "Baloo Chettan 2", cursive;
 }
 </style>
