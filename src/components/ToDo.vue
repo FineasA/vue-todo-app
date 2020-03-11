@@ -31,7 +31,11 @@
               v-model="editPersonQuery"
               @keyup.enter="confirmEdit(index)"
             />
-            <span @click="editTask(index)" v-show="!task.edit">
+            <span
+              class="task-item"
+              @click="editTask(index)"
+              v-show="!task.edit"
+            >
               {{ task.todo }}
             </span>
 
@@ -125,5 +129,9 @@ export default {
 
 .input {
   font-family: "Baloo Chettan 2", cursive;
+}
+
+.task-item {
+  cursor: text;
 }
 </style>
