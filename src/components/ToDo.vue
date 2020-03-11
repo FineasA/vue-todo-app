@@ -20,12 +20,29 @@
             class="list-group-item"
             v-for="(task, index) in todos"
             :key="index"
-            @click="deleteTask(index)"
             :class="{ active: task.isHovering }"
             @mouseover="hovering(index)"
             @mouseleave="notHovering(index)"
           >
-            {{ task.todo }}
+            <input
+              type="text"
+              v-show="task.edit"
+              :placeholder="task.todo"
+              v-model="editPersonQuery"
+              @keyup.enter="confirmEdit(index)"
+            />
+            <span @click="editTask(index)" v-show="!task.edit">
+              {{ task.todo }}
+            </span>
+
+            <button
+              style="margin-left: 25px"
+              class="btn btn-primary"
+              :key="index"
+              @click="deleteTask(index)"
+            >
+              Delete
+            </button>
           </li>
         </transition-group>
       </ul>
@@ -38,25 +55,51 @@
 </template>
 
 <script>
+import config from "../config.js";
+
 export default {
   data() {
     return {
+      editPersonQuery: "",
       query: "",
       task: {},
       todos: []
     };
   },
   methods: {
+    getUpdatedList() {
+      this.$http.get(config.url).then(response => {
+        console.log(response.data);
+        this.todos = response.data;
+      });
+    },
+    updateList() {
+      this.$http.put(config.url, this.todos);
+    },
+    confirmEdit(index) {
+      this.todos[index].todo = this.editPersonQuery;
+      this.todos[index].edit = false;
+      this.updateList();
+      this.editPersonQuery = "";
+    },
+    editTask(index) {
+      this.todos[index].edit = true;
+    },
     deleteTask(index) {
       this.todos.splice(index, 1);
+      this.updateList();
     },
     addTask() {
       this.task = {
         isCompleted: false,
         todo: this.query,
-        isHovering: false
+        isHovering: false,
+        edit: false,
+        date: new Date()
       };
       this.todos.push(this.task);
+      //post request to update list
+      this.updateList();
       this.query = "";
     },
     hovering(index) {
@@ -65,6 +108,10 @@ export default {
     notHovering(index) {
       this.todos[index].isHovering = false;
     }
+  },
+  mounted() {
+    console.log("mounted");
+    this.getUpdatedList();
   }
 };
 </script>

@@ -28,7 +28,26 @@
       Please enable it to continue.</strong>
   </noscript>
   <div id="app"></div>
-  <!-- built files will be auto injected -->
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.10.0/firebase-analytics.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyA3Yi1vT9ZxH145YXDXaWwotQ7gSG_fDPo",
+      authDomain: "vuejstodo-dc553.firebaseapp.com",
+      databaseURL: "https://vuejstodo-dc553.firebaseio.com",
+      projectId: "vuejstodo-dc553",
+      storageBucket: "vuejstodo-dc553.appspot.com",
+      messagingSenderId: "962623119536",
+      appId: "1:962623119536:web:0e1939a83a5380438e9b75",
+      measurementId: "G-W32WRWLYZD"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+  </script>
 </body>
 
 </html>
